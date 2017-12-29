@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    font-family: arial, Microsoft YaHei, SimSun;
+    -webkit-text-size-adjust: none
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    font-size: 0
+}
+
+.clearfix {
+    zoom: 1
+}
+
+.L {
+    float: left
+}
+
+.R {
+    float: right
+}
+
+body,
+html {
+    font-size: 12px;
+    width: 100%;
+    height: 100%;
+    font-family: '幼圆', MicroShoft YaHei, '黑体', SimSun, Arial;
+    background: #fff
+}
+
+body {
+    background: #fff;
+    color: #333
+}
+
+body.show {
+    visibility: visible
+}
+
+a {
+    text-decoration: none
+}
+
+img {
+    display: block;
+    width: 100%;
+    outline: 0;
+    border: none
+}
+
+input,
+label,
+select,
+textarea {
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    outline: 0;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto
+}
+
+dd,
+dl,
+dt,
+li,
+ul {
+    list-style: none
+}
+
+.middle {
+    bottom: 50%;
+    right: 50%;
+    -webkit-transform: translate(50%, 50%);
+    -ms-transform: translate(50%, 50%);
+    transform: translate(50%, 50%)
+}
+
+.relative {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
+
+.flex-middle-center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center
+}
+
+.border-box {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.text-overflow {
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.inner {
+    position: relative;
+    width: 32rem;
+    height: 50.4rem;
+    top: 50%;
+    left: 50%;
+    margin: -25.2rem 0 0 -16rem
+}
+
+.inner100 {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
