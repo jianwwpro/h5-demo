@@ -1,29 +1,26 @@
 <template>
-  <div class="index">
+  <div class="index page-box flex-middle-center">
     <swiper :options='swiperOptions' ref='mySwiper'>
       <!-- slides -->
-      <swiper-slide>
-        <div >1page</div>
-      </swiper-slide>
-      <swiper-slide>
-        <div>2 page</div>
-      </swiper-slide>
-      <swiper-slide>3 page</swiper-slide>
-      <swiper-slide>4 page</swiper-slide>
-      <swiper-slide>5 page</swiper-slide>
-      <swiper-slide>6 page</swiper-slide>
+      <Page1 />
+      <Page2 />
+      
     </swiper>
   </div>
 </template>
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import Page1 from './pages/Page1'
+import Page2 from './pages/Page2'
+
 export default {
   name: 'IndexPage',
   data () {
     return {
       swiperOptions: {
         direction: 'vertical',
+        parallax:true,
         debugger: true
 
       }
@@ -31,7 +28,9 @@ export default {
   },
   components: {
     swiper,
-    swiperSlide
+    swiperSlide,
+    Page1,
+    Page2
   },
   computed: {
     swiper () {
@@ -46,10 +45,6 @@ export default {
 </script>
 
 <style scoped>
-div{
-  width:100%;
-  height:600px;
-  background-color: pink;
-}
+
 
 </style>

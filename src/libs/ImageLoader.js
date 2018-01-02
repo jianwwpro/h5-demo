@@ -13,7 +13,7 @@ class ImageLoader {
           reject(imgUrl +'not loader')
       }
       this.img.onload = function() {
-        resolve($this.img)
+        resolve(this)
       }
     } );
     

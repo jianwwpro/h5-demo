@@ -6,14 +6,11 @@
         <div class="xionmao" v-bind:style="{opacity:opacity,left: imageLeft+'rem'}"></div>
       </div>
     </div>
-
-   <!--  <div v-for="image in images" v-show='false'>
-        <img width="100" @load="imageLoaded" :src="image"  />
-      </div> -->
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 import ImageLoader from '@/libs/ImageLoader'
 import Images from '@/libs/Images'
@@ -26,8 +23,8 @@ export default {
   data () {
     return {
       loadedImages: 0,
-      images: Images.images,
-      imageObjects:[],
+      imagesMap: Images.imagesMap(),
+      imageObjects:new Map(),
       opacity:0
     }
   },
@@ -35,6 +32,9 @@ export default {
     
     //页面完成图片加载后
     init() {
+      this.$store.dispatch('save', {
+          images: this.imageObjects
+      });
       this.$router.push('IndexPage')
     }
   },
@@ -42,23 +42,27 @@ export default {
     
   },
   computed: {
+    ...mapGetters({
+      images:'images'
+    }),
     loadingLength () {
-      return Math.floor(this.loadedImages / this.images.length * 100);
+      return Math.floor(this.loadedImages / this.imagesMap.size * 100);
     },
     imageLeft () {
         return -2 + 17.5 * this.loadingLength / 100;
     }
   },
   mounted() {
+
     setTimeout(()=>{
       this.opacity=1;
       var imageLoader = new ImageLoader();
-      for (var imgUrl of Images.images) {
-        imageLoader.loaderImage(imgUrl).then(img=>{
+      this.imagesMap.forEach((value, key, mapObj)=>{
+        imageLoader.loaderImage(value).then(img=>{
           this.loadedImages ++;
-          this.imageObjects.push(img);
+          this.imageObjects.set(key,img);
         });
-      }
+      })
     },200);
    
     
@@ -67,7 +71,7 @@ export default {
   },
   watch: {
     loadedImages: function(val){
-      if(val==this.images.length){
+      if(val==this.imagesMap.size){
         this.init();
       }
     }
