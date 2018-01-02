@@ -1,10 +1,14 @@
 <template>
+
   <div class="index page-box flex-middle-center">
+    
     <swiper :options='swiperOptions' ref='mySwiper'>
       <!-- slides -->
-      <Page1 />
+      <Page1 :sw="sw" :on="swiperOptions.on" />
       <Page2 />
-      
+      <Page2 />
+      <Page2 />
+      <Page2 />
     </swiper>
   </div>
 </template>
@@ -21,9 +25,15 @@ export default {
       swiperOptions: {
         direction: 'vertical',
         parallax:true,
-        debugger: true
-
-      }
+        debugger: true,
+        allowSlideNext: false,
+        observer:true,
+        observeParents:true,
+        on:{
+            
+        }
+      },
+      sw:null
     }
   },
   components: {
@@ -33,13 +43,13 @@ export default {
     Page2
   },
   computed: {
-    swiper () {
-      return this.$refs.mySwiper.swiper
-    }
+     swiper () {
+       return this.$refs.mySwiper.swiper
+     }
+   
   },
   mounted () {
-    //console.log('this is current swiper instance object', this.swiper)
-    //this.swiper.slideTo(3, 1000, false)
+    this.sw=this.$refs.mySwiper.swiper
   }
 }
 </script>

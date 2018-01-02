@@ -47,14 +47,17 @@
           <div class="imag02">
                <div class="bgbox"><div class="bg"></div></div>
           </div>
-          <div class="imag03">
-              <div class="imag">
-              <img :src="images | map('p13','src')">
-              </div>
-          </div>
-
-          <div class="imag04"></div>
-          <div id="p1next" class="imag05"></div>
+          <transition name="pandaBounce" v-on:after-leave="nextSlide()">
+            <div v-if='pandaBounceShow' class="panda">
+                <div class="imag">
+                <img :src="images | map('p13','src')">
+                </div>
+            </div>
+          </transition>
+          <transition name="summaryBounce">
+            <div v-if='summaryBounceShow' class="page1-summary"></div>
+          </transition>
+          <div @click='open()' class="page1-button"></div>
         </div>
     </div>
   </swiper-slide>
@@ -71,8 +74,10 @@ export default {
   name: 'Page1',
   data () {
     return {
-      c:'ddd'
+      summaryBounceShow:false,
+      pandaBounceShow:false,
     }
+
   },
   components: {
     swiperSlide,
@@ -82,13 +87,53 @@ export default {
     ...mapGetters({
       images:'images'
     })
+
   },
+  props : ['sw','on'],
   methods: {
-    
+    //点击按钮，出发panda的动画消失。
+    open(){
+      this.pandaBounceShow=false;
+
+
+    },
+    /** 切换到下一个slide后，将数据重置。
+      * 1 允许slide
+      * 2 切换到下一张
+      * 3 描述文字消失
+    */
+    nextSlide(){
+      this.sw.allowSlideNext=true;
+      this.sw.slideNext();
+      this.summaryBounceShow=false;
+    },
+    /**
+    *回到该页时，禁止slide，显示panda和summary
+    */
+    initPage(beFirstLoad){
+      if(!beFirstLoad)
+        this.sw.allowSlideNext=false;
+      
+      if(this.images==null){
+        this.$router.push("/");
+      }
+      setTimeout(()=>{
+        this.summaryBounceShow=true;
+      },800)
+       setTimeout(()=>{
+        this.pandaBounceShow=true;
+      },1200)
+    }
   },
   mounted () {
-   if(this.images==null){
-      this.$router.push("/");
+    let that = this;
+    that.initPage(true);
+     //监听slide回到本也时，重新调用动画并禁止slide
+
+    this.on.slideChangeTransitionStart=function(){
+      if(this.activeIndex==0){
+        that.initPage();
+      }
     }
   }
 }
@@ -104,12 +149,11 @@ export default {
     height: 3rem;
     z-index: 10
     &.snow01
-        left: 8.5rem;
-        top: 1.5rem;
+      left: 8.5rem;
+      top: 1.5rem;
     &.snow02
-        left: -1rem;
-        top: 16rem;
-        animation: circle 7s linear infinite
+      left: -1rem;
+      top: 16rem;
     &.snow03
       width 2.5rem
       height 2.5rem
@@ -132,51 +176,13 @@ export default {
       right: 4rem;
       top: 33rem;
 
-
- 
-
-  
-
-
-  .imag04 {
+  .pageBg
       position: absolute;
-      left: 0;
-      width: 100%;
-      bottom: 7.5rem;
-      height: 8.9rem
-  }
-
-  .show .imag04 {
-      background: url(/static/images/p1/4.png) no-repeat 0 0;
-      opacity: 0;
-      -webkit-background-size: 100% auto;
-      background-size: 100% auto
-  }
-
-  .imag05 {
-      position: absolute;
-      left: 0;
-      left: 5.5rem;
-      width: 21rem;
-      bottom: 1rem;
-      height: 8rem
-  }
-
-  .show .imag05 {
-      background: url(/static/images/p1/5.png) no-repeat 0 0;
-      -webkit-background-size: 100% auto;
-      background-size: 100% auto
-  }
-
-  .pageBg {
-       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       opacity: 1
-  }
-
   .imag02
       position: absolute;
       background: url(/static/images/p1/2.png) no-repeat center;
@@ -198,61 +204,52 @@ export default {
         background-size: 32rem auto;
       .bgbox 
         opacity: 0
+  
+  .panda 
+    position: absolute;
+    top: 10rem;
+    left: 3.5rem;
+    width: 25rem;
+    height: 25rem;
+    opacity: 1
+    &.pandaBounce-enter-active
+      animation: fadeIn 1s
+    &.pandaBounce-leave-active
+      animation: fadeIn 1s reverse
+  .page1-summary
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 7.5rem;
+    height: 8.9rem
+    background: url(/static/images/p1/4.png) no-repeat 0 0;
+    opacity: 1;
+    background-size: 100% auto
+    &.summaryBounce-enter-active
+      animation: bounce-in 1s;
+
+  .page1-button 
+    position: absolute;
+    left: 0;
+    left: 5.5rem;
+    width: 21rem;
+    bottom: 1rem;
+    height: 8rem
+    background: url(/static/images/p1/5.png) no-repeat 0 0;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto
+  
+ 
+
+  
+
+  
 
 
 
 
-  .imag03 {
-      position: absolute;
-      top: 10rem;
-      left: 3.5rem;
-      width: 25rem;
-      height: 25rem;
-      opacity: 1
-  }
+  
 
-
-  .on.next .imag02 {
-      -webkit-animation: none;
-              animation: none
-  }
-
-
-  .imag03 img {
-      -webkit-transform-origin: 13rem 19.5rem;
-      -ms-transform-origin: 13rem 19.5rem;
-      transform-origin: 13rem 19.5rem;
-      -webkit-transform: scale(0);
-      -ms-transform: scale(0);
-      transform: scale(0)
-  }
-
-  .imag03 img {
-      -webkit-transform: scale(1);
-      -ms-transform: scale(1);
-      transform: scale(1);
-      -webkit-transition: -webkit-transform 1s linear 1s;
-      transition: -webkit-transform 1s linear 1s;
-      -o-transition: transform 1s linear 1s;
-      transition: transform 1s linear 1s;
-      transition: transform 1s linear 1s, -webkit-transform 1s linear 1s
-  }
-
-  .imag04 {
-      -webkit-animation: fadeIn 1s ease forwards .5s;
-      animation: fadeIn 1s ease forwards .5s
-  }
-
-  .next .imag03 img {
-      -webkit-transform: scale(0);
-      -ms-transform: scale(0);
-      transform: scale(0);
-      -webkit-transition: -webkit-transform .5s linear;
-      transition: -webkit-transform .5s linear;
-      -o-transition: transform .5s linear;
-      transition: transform .5s linear;
-      transition: transform .5s linear, -webkit-transform .5s linear
-  }
 
   .next .imag02 .bgbox {
       opacity: 1;

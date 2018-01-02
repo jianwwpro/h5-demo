@@ -1,8 +1,8 @@
 <template>
   <swiper-slide class='page2'>
-    <button @click="show = !show">Toggle show</button>
+    <button @click="show = !show">点我</button>
   <transition name="bounce">
-    <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+    <p v-if="show">这是第二页，动画效果演示</p>
   </transition>
   </swiper-slide>
 </template>
