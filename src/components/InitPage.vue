@@ -1,5 +1,6 @@
 <template>
   <div class='initPage'>
+  <!--加载框，这里准备抽成组件。传入参数：图片对象。-->
     <div id="loading" class="flex-middle-center">
       <div class="bar-box">
         <div class="bar" v-bind:style="{width: loadingLength+'%'}"></div>
@@ -10,12 +11,13 @@
 </template>
 
 <script>
+//使用vuex 将数据状态化，此处是难点。
 import { mapGetters } from 'vuex'
 
 import ImageLoader from '@/libs/ImageLoader'
+//图片对象，由其他文件，组成map对象。
 import Images from '@/libs/Images'
 
-var draw;
 
 
 export default {
